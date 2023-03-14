@@ -19,7 +19,7 @@ After running either step 2 or 3, it would produce two `.csv` files. One with `_
 
 For step 2 of `validate_ymodel` , throughput field of both `.csv` files should be within `1-2%`  margin of each other for each model individually. 
 
-## While running with Docker
+## Running inside Docker
 - Make sure to set NUMA bindings otherwise large memory transfers for larger models could result in un-even throughput rates. 
 
 - Run docker without `--shm-size` set. 
