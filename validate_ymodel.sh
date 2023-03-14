@@ -3,9 +3,14 @@
 #DRIVER=/home/umayadav/repo/AMDMIGraphX/build/bin/driver
 DRIVER=/long_pathname_so_that_rpms_can_package_the_debug_info/data/driver/AMDMIGraphX/build/bin/driver
 
-echo "ENV as existed before running script"
-env
-echo ""
+function print_env() {
+    echo $1
+    echo ""
+    env
+    echo ""
+}
+
+print_env "ENV as existed before running script"
 
 CURR_DIR=$(pwd)
 
@@ -74,9 +79,7 @@ function run_script() {
         resultsfile="${base_resultsfile}_compile.csv"
     fi
 
-    echo "Printing ENV before eval or compile"
-    env
-    echo ""
+    print_env "Printing ENV before eval or compile"
 
     echo dir "," onnx_file "," params "," total time "," hip::copy_to_gpu "," hip::copy_from_gpu "," hip::sync_stream "," throughput | tee -a $resultsfile
 
@@ -157,6 +160,5 @@ rm -rf $(find -iname "*.mxr")
 rm -rf $(find -iname "*.out")
 unset MIGRAPHX_DISABLE_MIOPEN_FUSION
 
-echo "Printing ENV after running script"
-env
+print_env "Printing ENV after running script"
 echo "finished running"
