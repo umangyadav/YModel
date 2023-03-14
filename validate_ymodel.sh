@@ -146,13 +146,15 @@ mv $HOME/.config/miopen $HOME/.config/miopen_tuned_user_db
 
 run_script "perf"
 
+### cleanup
 if [ -d $HOME/.config/miopen_tuned_user_db ]; then
     echo "Moving back tuning database"
     mv $HOME/.config/miopen_tuned_user_db $HOME/.config/miopen
 fi
 
 disable_miopen_logging
-
+rm -rf $(find -iname "*.mxr")
+rm -rf $(find -iname "*.out")
 unset MIGRAPHX_DISABLE_MIOPEN_FUSION
 
 echo "Printing ENV after running script"
