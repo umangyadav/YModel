@@ -24,4 +24,4 @@ For step 2 of `validate_ymodel` , throughput field of both `.csv` files should b
 
 - Run docker without `--shm-size` set. 
 
-- If it segfaults on BERT of GPT, try changing Batch size by replacing batch_size here by lower number: `@input_ids batch_size 1024` 
+- If it segfaults on BERT or GPT, try changing Batch size by replacing batch_size here by lower number: `@input_ids batch_size 1024` 
