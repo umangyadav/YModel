@@ -14,7 +14,10 @@ Before running either step 2 or 3 change path to `migraphx-driver` inside `valid
 2. To validate YModel feature run `bash validate_ymodel.sh "validate_ymodel"`.  This would only run models listed inside `ymodel_validate_onnx.txt` and `ymodel_validate_tf.txt`.  
 3. To run full UIF model suite, run `bash validate_ymodel.sh "UIF"`. This would run models listed inside `uif_onnx.txt` and `uif_tf.txt`. 
 
-After running either step 2 or 3, it would produce two `.csv` files. One with `_perf.csv` and other `_compile.csv`. For `validate_ymodel` , throughput field of both `.csv` files should be withing `1-2%`  margin of each other for each model individually. 
+## Results
+After running either step 2 or 3, it would produce two `.csv` files. One with `_perf.csv` and other `_compile.csv`. 
+
+For step 2 of `validate_ymodel` , throughput field of both `.csv` files should be within `1-2%`  margin of each other for each model individually. 
 
 ## While running with Docker
 - Make sure to set NUMA bindings otherwise large memory transfers for larger models could result in un-even throughput rates. 
