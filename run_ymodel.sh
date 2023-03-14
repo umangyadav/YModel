@@ -62,9 +62,9 @@ function disable_user_tuning() {
 }
 
 function enable_user_tuning() {
-    export MIOPEN_FIND_ENFORCE=3
-    enable_miopen_logging
-    #echo "not tuning"
+    #export MIOPEN_FIND_ENFORCE=3
+    #enable_miopen_logging
+    echo "not tuning"
 }
 
 function run_script() {
