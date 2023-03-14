@@ -40,21 +40,42 @@ else
 	base_resultsfile+="_without_fusion"
 fi
 
+
+function enable_miopen_logging() {
+	export MIOPEN_LOG_LEVEL=6
+	export MIOPEN_ENABLE_LOGGING=1
+	export MIOPEN_ENABLE_LOGGING_CMD=1
+}
+
+function disable_miopen_logging() {
+	unset MIOPEN_LOG_LEVEL
+	unset MIOPEN_ENABLE_LOGGING
+	unset MIOPEN_ENABLE_LOGGING_CMD
+}
+
+function disable_user_tuning() {
+	unset MIOPEN_FIND_ENFORCE
+	unset MIOPEN_USER_DB_PATH
+    rm -rf $HOME/.config/miopen
+	disable_miopen_logging
+}
+
+function enable_user_tuning() {
+	export MIOPEN_FIND_ENFORCE=3
+	enable_miopen_logging
+	#echo "not tuning"
+}
+
 function run_script() {
     is_compile=$1
     if [ $is_compile != "compile" ] 
     then 
         echo "Running MXR Files...." 
-        unset MIOPEN_USER_DB_PATH
-        unset MIOPEN_FIND_ENFORCE
-        rm -rf $HOME/.config/miopen
+		disable_user_tuning
         resultsfile="${base_resultsfile}_perf.csv"
     else 
         echo "Compiling and generating MXR files...."
-		export MIOPEN_FIND_ENFORCE=3
-		export MIOPEN_ENABLE_LOGGING=1
-		export MIOPEN_LOG_LEVEL=6
-		export MIOPEN_ENABLE_LOGGING_CMD=1
+		enable_user_tuning
 		resultsfile="${base_resultsfile}_compile.csv"
     fi
 
@@ -83,7 +104,7 @@ function run_script() {
         then
             $DRIVER compile --onnx $onnx $model_params --enable-offload-copy --binary --output $mxr_file 
         else
-            rm -rf $HOME/.config/miopen
+           	disable_user_tuning 
         fi
         $DRIVER perf --migraphx $mxr_file $model_params --enable-offload-copy  > $out_file 2>&1
         total_time=`grep 'Total time' $out_file | awk '{ print $3 }' | sed s/ms//g`
@@ -110,7 +131,7 @@ function run_script() {
         then
             $DRIVER compile --tf $pb $model_params --enable-offload-copy --binary --output $mxr_file 
         else
-            rm -rf $HOME/.config/miopen
+           	disable_user_tuning 
         fi
         $DRIVER perf --migraphx $mxr_file $model_params --enable-offload-copy  > $out_file 2>&1
         total_time=`grep 'Total time' $out_file | awk '{ print $3 }' | sed s/ms//g`
@@ -124,18 +145,24 @@ function run_script() {
 }
 
 run_script "compile"
+
+if [ -d $HOME/.config/miopen_tuned_user_db ]
+then
+	echo "removing older copy of tuned user db"
+	rm -rf $HOME/.config/miopen_tuned_user_db
+fi
+
+mv $HOME/.config/miopen $HOME/.config/miopen_tuned_user_db
+
 run_script "perf"
 
-#if [ -d $HOME/miopen ]
-#then 
-#    echo "Moving back tuning database"
-#    mv $HOME/miopen $HOME/.config/
-#fi
+if [ -d $HOME/.config/miopen_tuned_user_db ]
+then 
+    echo "Moving back tuning database"
+    mv $HOME/.config/miopen_tuned_user_db $HOME/.config/miopen
+fi
 
-unset MIOPEN_FIND_ENFORCE
-unset MIOPEN_ENABLE_LOGGING
-unset MIOPEN_ENABLE_LOGGING_CMD
-unset MIOPEN_LOG_LEVEL
+disable_miopen_logging
 
 unset MIGRAPHX_DISABLE_MIOPEN_FUSION
 
