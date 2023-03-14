@@ -1,10 +1,22 @@
-import requests
-import wget
-import re
 import os
-from bs4 import BeautifulSoup
+import re
+import subprocess
+import sys
 from zipfile import ZipFile
 import tarfile
+
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+
+install("wget")
+install("beautifulsoup4")
+install("requests")
+
+import requests
+import wget
+from bs4 import BeautifulSoup
 
 url = 'http://mklnxpgk.amd.com/ModelZoo/UIF/1.1-release-migraphx/'
 reqs = requests.get(url, allow_redirects=True)
