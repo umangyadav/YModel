@@ -18,7 +18,7 @@ import requests
 import wget
 from bs4 import BeautifulSoup
 
-url = 'http://mklnxpgk.amd.com/ModelZoo/UIF/1.1-release-migraphx/'
+url = 'http://mklnxmzoo.amd.com/modelzoo/UIF/1.1-release-migraphx/'
 reqs = requests.get(url, allow_redirects=True)
 soup = BeautifulSoup(reqs.text, 'html.parser')
 curr_dir = os.getcwd()

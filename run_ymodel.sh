@@ -12,11 +12,15 @@ function print_env() {
 
 print_env "ENV as existed before running script"
 
-CURR_DIR=$(pwd)
-
 is_validate=$1
 
-base_resultsfile=$CURR_DIR/results_with
+MODEL_DIR=$2
+
+if [ ! -d $MODEL_DIR ]; then
+    echo "$MODEL_DIR is not a valid path to model directory"
+fi
+
+base_resultsfile=$MODEL_DIR/results_with
 
 if [ $is_validate == "validate_ymodel" ]; then
     echo "Running validation of YModel feature"
@@ -88,10 +92,10 @@ function run_script() {
     counter=0
 
     while read dir onnx params; do
-        echo $(pwd)/YModelTesting/$dir/$onnx
+        echo $MODEL_DIR/$dir/$onnx
         model_params=$(echo $params | tr -d '"')
         echo $model_params
-        pushd $(pwd)/YModelTesting/$dir
+        pushd $MODEL_DIR/$dir
         base=$(basename $onnx .onnx)
         counter=$((counter + 1))
         mxr_file=${base}${counter}.mxr
@@ -113,10 +117,10 @@ function run_script() {
     done <$onnx_list
 
     while read dir pb params; do
-        echo $(pwd)/YModelTesting/dir/$pb
+        echo $MODEL_DIR/$dir/$pb
         model_params=$(echo $params | tr -d '"')
         echo $model_params
-        pushd $(pwd)/YModelTesting/$dir
+        pushd $MODEL_DIR/$dir
         base=$(basename $pb .pb)
         counter=$((counter + 1))
         mxr_file=${base}${counter}.mxr
