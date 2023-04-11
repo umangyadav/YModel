@@ -1,25 +1,23 @@
 #!/bin/bash
 
-#DRIVER=/home/umayadav/repo/AMDMIGraphX/build/bin/driver
-DRIVER=/long_pathname_so_that_rpms_can_package_the_debug_info/data/driver/AMDMIGraphX/build/bin/driver
+NUM_ARGS=$#
+if [ $NUM_ARGS != 4 ]; then
+	echo "Please pass exactly four arguments to script, see README.md file for more information on how to run this script"
+	exit 1
+fi
+
+IS_VALIDATE=$1
+
+TUNE=$2
+
+MODEL_DIR=$3
+
+DRIVER=$4
 
 if [ ! -f $DRIVER ]; then 
-	echo "Please set correct path for the migraphx-driver by modifying the script"
+	echo "Please provide correct path for the migraphx-driver as forth argument to script"
 	exit 1
 fi
-
-
-NUM_ARGS=$#
-if [ $NUM_ARGS != 3 ]; then
-	echo "Please pass three arguments to script, see README.md file for more information on how to run this script"
-	exit 1
-fi
-
-is_validate=$1
-
-MODEL_DIR=$2
-
-TUNE=$3
 
 if [ ! -d $MODEL_DIR ]; then
     echo "$MODEL_DIR is not a valid path to model directory, please pass valid directory path as second argument."
@@ -28,13 +26,13 @@ fi
 
 base_resultsfile=$MODEL_DIR/results_with
 
-if [ $is_validate == "validate_ymodel" ]; then
+if [ $IS_VALIDATE == "validate_ymodel" ]; then
     echo "Running validation of YModel feature"
     export MIGRAPHX_DISABLE_MIOPEN_FUSION=1
     onnx_list="ymodel_validate_onnx.txt"
     tf_list="ymodel_validate_tf.txt"
     base_resultsfile+="_validate_ymodel"
-elif [ $is_validate == "UIF" ]; then
+elif [ $IS_VALIDATE == "UIF" ]; then
     echo "Runnning testing of UIF models"
     onnx_list="uif_onnx.txt"
     tf_list="uif_tf.txt"
