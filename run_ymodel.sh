@@ -3,21 +3,27 @@
 #DRIVER=/home/umayadav/repo/AMDMIGraphX/build/bin/driver
 DRIVER=/long_pathname_so_that_rpms_can_package_the_debug_info/data/driver/AMDMIGraphX/build/bin/driver
 
-function print_env() {
-    echo $1
-    echo ""
-    env
-    echo ""
-}
+if [ ! -f $DRIVER ]; then 
+	echo "Please set correct path for the migraphx-driver by modifying the script"
+	exit 1
+fi
 
-print_env "ENV as existed before running script"
+
+NUM_ARGS=$#
+if [ $NUM_ARGS != 3 ]; then
+	echo "Please pass three arguments to script, see README.md file for more information on how to run this script"
+	exit 1
+fi
 
 is_validate=$1
 
 MODEL_DIR=$2
 
+TUNE=$3
+
 if [ ! -d $MODEL_DIR ]; then
-    echo "$MODEL_DIR is not a valid path to model directory"
+    echo "$MODEL_DIR is not a valid path to model directory, please pass valid directory path as second argument."
+	exit 1
 fi
 
 base_resultsfile=$MODEL_DIR/results_with
@@ -35,7 +41,18 @@ elif [ $is_validate == "UIF" ]; then
     base_resultsfile+="_uif_testing"
 else
     echo "Please pass either \"validate_ymodel\" or \"UIF\" flag to script."
-    exit
+    exit 1
+fi
+
+if [ $TUNE == "enable_tuning" ]; then
+    echo "Tuning is enabled"
+    base_resultsfile+="_tuned"
+elif [ $TUNE == "disable_tuning" ]; then
+    echo "Tuning is disabled"
+    base_resultsfile+="_untuned"
+else
+    echo "Please pass either \"enable_tuning\" or \"disable_tuning\" flag to script as third argument."
+    exit 1
 fi
 
 if [ -z "$MIGRAPHX_DISABLE_MIOPEN_FUSION" ]; then
@@ -66,10 +83,22 @@ function disable_user_tuning() {
 }
 
 function enable_user_tuning() {
-    #export MIOPEN_FIND_ENFORCE=3
-    #enable_miopen_logging
-    echo "not tuning"
+	if [ $TUNE == "enable_tuning" ]; then
+    	export MIOPEN_FIND_ENFORCE=3
+    	enable_miopen_logging
+	else 
+    	echo "Tuning is disabled"	
+	fi
 }
+
+function print_env() {
+    echo $1
+    echo ""
+    env
+    echo ""
+}
+
+print_env "ENV as existed before running script"
 
 function run_script() {
     is_compile=$1
