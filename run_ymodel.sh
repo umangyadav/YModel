@@ -129,7 +129,9 @@ function run_script() {
         out_file=${base}${counter}.perf_tuning.out
         echo $mxr_file
         if [ $is_compile == "compile" ]; then
+            enable_miopen_logging
             $DRIVER compile --onnx $onnx $model_params --enable-offload-copy --binary --output $mxr_file
+            disable_miopen_logging
         else
             disable_user_tuning
         fi
@@ -154,7 +156,9 @@ function run_script() {
         out_file=${base}${counter}.perf_tuning.out
         echo $mxr_file
         if [ $is_compile == "compile" ]; then
+            enable_miopen_logging
             $DRIVER compile --tf $pb $model_params --enable-offload-copy --binary --output $mxr_file
+            disable_miopen_logging
         else
             disable_user_tuning
         fi
