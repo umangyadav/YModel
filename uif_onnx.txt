@@ -104,3 +104,24 @@
 ./pt_resnet50v1.5_pruned0.4_1.1_M/float resnet50_prune0.4_pad32_fp16.onnx "--batch 32"
 ./pt_resnet50v1.5_pruned0.4_1.1_M/float resnet50_prune0.4_pad32_fp32.onnx "--batch 32"
 ./pt_resnet50v1.5_pruned0.4_1.1_M/float resnet50_prune0.4_fp32.onnx "--batch 32"
+./tf2_2dunet_1.2_M2.6/float tf2_2dunet_0_0_fp32.onnx "--input-dim @MRImages 1 144 144 4"
+./tf2_2dunet_1.2_M2.6/float tf2_2dunet_0_0_fp16.onnx "--input-dim @MRImages 1 144 144 4"
+./tf2_2dunet_0.7_1.2_M2.6/float tf2_2dunet_prune_0.7_fp32.onnx "--input-dim @MRImages 1 144 144 4"
+./tf2_2dunet_0.7_1.2_M2.6/float tf2_2dunet_prune_0.7_fp16.onnx "--input-dim @MRImages 1 144 144 4"
+./tf2_bert_basev1.5_1.2_M2.6/float/onnx_model tf2_bert_base_0_0_fp32.onnx "--fill1 input_ids:0 --fill1 token_type_ids:0 --input-dim @input_ids:0 1 384  --input-dim @attention_mask:0 1 384 --input-dim @token_type_ids:0 1 384"
+./tf2_bert_basev1.5_1.2_M2.6/float/onnx_model tf2_bert_base_0_0_fp16.onnx "--fill1 input_ids:0 --fill1 token_type_ids:0 --input-dim @input_ids:0 1 384  --input-dim @attention_mask:0 1 384 --input-dim @token_type_ids:0 1 384"
+./tf2_bert_largev1.5_1.2_M2.6/float/onnx_model tf2_bert_large_0_0_fp32.onnx "--fill1 input_ids:0 --fill1 token_type_ids:0 --input-dim @input_ids:0 1 384  --input-dim @attention_mask:0 1 384 --input-dim @token_type_ids:0 1 384"
+./tf2_bert_largev1.5_1.2_M2.6/float/onnx_model tf2_bert_large_0_0_fp16.onnx "--fill1 input_ids:0 --fill1 token_type_ids:0 --input-dim @input_ids:0 1 384  --input-dim @attention_mask:0 1 384 --input-dim @token_type_ids:0 1 384"
+./tf2_efficientdet_1.2_M2.6/float/frozen_efficientdet-d2 efficientdet-d2_frozen.onnx 
+./tf2_efficientdet_1.2_M2.6/float/frozen_efficientdet-d2 model_fp16.onnx
+./tf2_yolov3_1.2_M2.6/float tf2_yolov3_0_0_fp32.onnx "--batch 1"
+./tf2_yolov3_1.2_M2.6/float tf2_yolov3_0_0_fp16.onnx "--batch 1"
+
+
+
+
+
+
+
+
+
