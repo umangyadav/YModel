@@ -30,4 +30,3 @@
 ./tf2_resnet50v1_0.5_1.1_M2.4/float tf_resnet50v1_0.5_0_fp16.pb "--batch 128"
 ./tf2_resnet50v1_0.5_1.1_M2.4/float tf_resnet50v1_0.5_32_fp16.pb "--batch 128"
 ./tf2_resnet50v1_0.5_1.1_M2.4/float tf_resnet50v1_0.5_32_fp32.pb "--batch 128"
-
