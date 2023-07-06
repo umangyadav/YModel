@@ -40,6 +40,5 @@ if __name__ == "__main__":
         command_list.append('1')
         p = subprocess.Popen(args=command_list, cwd=args.rocm_path)
         p_list.append(p)
-        p.wait()
     for p in p_list:
         p.wait()
