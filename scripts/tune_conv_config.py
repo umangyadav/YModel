@@ -2,7 +2,6 @@ import multiprocessing as mp
 import os
 import argparse as ap
 import subprocess
-from time import sleep
 
 def parse_args():
     parser = ap.ArgumentParser()
