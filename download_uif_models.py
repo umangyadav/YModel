@@ -13,8 +13,8 @@ def install(package):
 
 def parse_args():
     parser = ap.ArgumentParser()
-    parser.add_argument('--modelzoo-url', type='str',
-                        help="ModelZoo URL from which, models would be downlaoded")
+    parser.add_argument('--modelzoo-url', type=str,
+                        help="ModelZoo URL from which, models would be downlaoded", required=True)
     args = parser.parse_args()
     return args
 
