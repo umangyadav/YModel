@@ -5,27 +5,31 @@ import sys
 from zipfile import ZipFile
 import tarfile
 import argparse as ap
-import requests
-import wget
-from bs4 import BeautifulSoup
+
 
 def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
+
 def parse_args():
     parser = ap.ArgumentParser()
-    parser.add_argument('--modelzoo-url', type='str', help="ModelZoo URL from which, models would be downlaoded")
+    parser.add_argument('--modelzoo-url', type='str',
+                        help="ModelZoo URL from which, models would be downlaoded")
     args = parser.parse_args()
     return args
+
 
 if __name__ == "__main__":
     # install necessary packages to crawl website and look for links to download from
     install("wget")
     install("beautifulsoup4")
     install("requests")
+    import requests
+    import wget
+    from bs4 import BeautifulSoup
     # parse args
-    args = parse_args() 
-    url = args.modelzoo_url 
+    args = parse_args()
+    url = args.modelzoo_url
     reqs = requests.get(url, allow_redirects=True)
     soup = BeautifulSoup(reqs.text, 'html.parser')
     curr_dir = os.getcwd()
