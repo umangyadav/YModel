@@ -1,3 +1,5 @@
+# This repository has been transferred to ROCmSoftwarePlatform and will no longer be maintained. https://github.com/ROCmSoftwarePlatform/YModel-Scripts
+
 # YModel 
 
 This repo contains scripts to download and extract models from UIF models repository. 
